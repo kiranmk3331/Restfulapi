@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Http\Controllers\ApiController;
-
+use App\Models\User;
 
 class UserController extends ApiController
 {
@@ -65,9 +64,9 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::findorFail($id);
+        // $user = User::findorFail($id);
 
         // return response()->json([
         //     'user' => $user, 
@@ -93,9 +92,10 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findorFail($id);
+        // $user = User::findorFail($id);
+
         $request->validate([
             'email' => 'email|unique:users,email,' . $user->id,
             'password' => 'min:6|confirmed',
@@ -118,6 +118,7 @@ class UserController extends ApiController
         }
 
         if ($request->has('admin')) {
+           
             if (!$user->isVerified()) {
                 // return response()->json([
                 //     'error' => 'Only verified user can modify admin field',
@@ -152,9 +153,9 @@ class UserController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy( User $user)
     {
-        $user = User::findorFail($id);
+        // $user = User::findorFail($id);
 
         $user->delete();
         return response()->json([
